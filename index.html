@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #dae5f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .test-card {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffffec;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -10px rgba(0, 30, 60, 0.4);
+            padding: 35px 35px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: #0b2b44;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 4px solid #7aa5c2;
+            padding-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        h1 span {
+            background: #1d4e6f;
+            color: white;
+            font-size: 1rem;
+            padding: 5px 18px;
+            border-radius: 60px;
+        }
+        .subtitle {
+            color: #2c577a;
+            margin: 5px 0 25px 0;
+            background: #e2edf9;
+            padding: 8px 20px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        .question-area {
+            margin: 20px 0;
+        }
+        .question {
+            background: white;
+            border-radius: 32px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 18px -8px rgba(33, 43, 64, 0.25);
+            border: 1px solid #cdddee;
+        }
+        .q-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #11334d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .badge {
+            background: #385f83;
+            color: white;
+            border-radius: 60px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .q-text {
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 0 0 12px 0;
+            padding-left: 8px;
+            border-left: 4px solid #7aa5c2;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            background: #f1f7fe;
+            border-radius: 60px;
+            padding: 8px 18px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .option-item.selected {
+            background: #c3dffa;
+            border-color: #1e6ea8;
+        }
+        .option-item input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #2b628b;
+            border-radius: 50%;
+            margin-right: 15px;
+            background: white;
+            flex-shrink: 0;
+        }
+        .option-item input[type="radio"]:checked {
+            background: #1e6ea8;
+            border-color: #1e6ea8;
+            box-shadow: inset 0 0 0 4px white;
+        }
+        .correct-answer-hint {
+            margin-top: 10px;
+            padding: 6px 15px;
+            background: #fff1c0;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            color: #3d2f00;
+            border-left: 5px solid #e6a700;
+            font-weight: 500;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 14px 32px;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 16px -6px #1f3b4f;
+            transition: 0.15s;
+            background: white;
+            color: #113853;
+            border: 1px solid #b5d0e8;
+        }
+        .btn-primary {
+            background: #1d6f9e;
+            color: white;
+            border: none;
+        }
+        .btn-primary:enabled:hover {
+            background: #135b87;
+            transform: scale(1.02);
+        }
+        .btn-primary:disabled {
+            background: #b3c9dc;
+            color: #eef3f8;
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+            box-shadow: 0 4px 8px -3px #7f9bb3;
+        }
+        .score-panel {
+            background: #264d6e;
+            color: white;
+            border-radius: 60px;
+            padding: 12px 25px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: inset 0 2px 10px #1b344a;
+        }
+        .score-panel span {
+            background: #ffc107;
+            color: #0b2b2f;
+            border-radius: 50px;
+            padding: 5px 22px;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+        .footnote {
+            margin-top: 25px;
+            text-align: center;
+            color: #38658b;
+            font-size: 0.9rem;
+            border-top: 1px dashed #9fb8d3;
+            padding-top: 18px;
+        }
+    </style>
+</head>
+<body>
+<div class="test-card">
+    <h1>📀 Презентация · §12 <span>6 класс · 20 вопросов</span></h1>
+    <div class="subtitle"></div>
+
+    <div id="questionsContainer" class="question-area"></div>
+
+    <div class="actions">
+        <button class="btn btn-primary" id="checkTestBtn" disabled>✅ Проверить ответы</button>
+        <div class="score-panel" id="scorePanel">
+            📊 <span id="scoreValue">0 / 20</span>
+        </div>
+    </div>
+
+    <div class="footnote">
+        на основе §12 «Презентация»
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        // 1-7 из предыдущей версии (немного расширены формулировки)
+        { text: "Что такое компьютерная презентация?", options: ["Файл с таблицами", "Набор картинок", "Последовательность слайдов", "Видеофильм"], correct: 2 },
+        { text: "Какая программа нужна для создания презентаций?", options: ["Word", "PowerPoint", "Photoshop", "Блокнот"], correct: 1 },
+        { text: "Как называется режим, показывающий все слайды сразу?", options: ["Обычный", "Сортировщик слайдов", "Показ слайдов", "Структура"], correct: 1 },
+        { text: "Чего НЕ существует в PowerPoint?", options: ["Стандартные темы", "Шаблоны с сайта", "Свои шаблоны", "Звуковые шаблоны"], correct: 3 },
+        { text: "Что можно вставить на слайд?", options: ["Рисунки", "Звук", "Видео", "Всё перечисленное"], correct: 3 },
+        { text: "Для чего нужна клавиша F5 в PowerPoint?", options: ["Сохранить", "Показ с первого слайда", "Новый слайд", "Проверка орфографии"], correct: 1 },
+        { text: "Чем управляют во время показа?", options: ["Кнопки и ссылки", "Строка заголовка", "Панель задач", "Ярлыки"], correct: 0 },
+        // 8-20 новые вопросы (на основе темы презентация)
+        { text: "Как называется отдельная страница презентации?", options: ["Лист", "Слайд", "Кадр", "Сцена"], correct: 1 },
+        { text: "Можно ли добавить музыку на слайд?", options: ["Да", "Нет", "Только в новой версии", "Только картинки"], correct: 0 },
+        { text: "Какой формат имеют файлы PowerPoint?", options: [".docx", ".xlsx", ".pptx", ".txt"], correct: 2 },
+        { text: "Что такое дизайн слайда?", options: ["Цвет и расположение", "Только фон", "Анимация", "Звук"], correct: 0 },
+        { text: "Можно ли изменить порядок слайдов?", options: ["Да", "Нет", "Только в начале", "Только в конце"], correct: 0 },
+        { text: "Что такое анимация в презентации?", options: ["Смена слайдов", "Движение объектов", "Звук", "Видео"], correct: 1 },
+        { text: "Для чего нужна кнопка «Слайд-шоу»?", options: ["Печать", "Сохранение", "Показ презентации", "Редактирование"], correct: 2 },
+        { text: "Как удалить слайд?", options: ["Кнопка Delete", "Перетащить", "Закрасить", "Нельзя"], correct: 0 },
+        { text: "Что такое шаблон презентации?", options: ["Готовая разметка", "Картинка", "Текст", "Видео"], correct: 0 },
+        { text: "Можно ли вставить таблицу на слайд?", options: ["Да", "Нет", "Только в Word", "Только картинку"], correct: 0 },
+        { text: "Как добавить новый слайд?", options: ["Вставка → Создать слайд", "Файл → Открыть", "Правка → Копировать", "Вид → Сортировщик"], correct: 0 },
+        { text: "Как называется эффект перехода между слайдами?", options: ["Анимация", "Смена слайда", "Звук", "Дизайн"], correct: 1 },
+        { text: "Можно ли напечатать слайды?", options: ["Да", "Нет", "Только первый", "Только текст"], correct: 0 }
+    ];
+
+    let selectedAnswers = new Array(questionsData.length).fill(-1);
+    const container = document.getElementById('questionsContainer');
+    const scoreSpan = document.getElementById('scoreValue');
+    const checkBtn = document.getElementById('checkTestBtn');
+
+    function updateCheckButtonState() {
+        checkBtn.disabled = !selectedAnswers.every(idx => idx !== -1);
+    }
+
+    function renderQuestions() {
+        let htmlStr = '';
+        questionsData.forEach((q, idx) => {
+            const selectedIdx = selectedAnswers[idx];
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                const isChecked = (selectedIdx === optIdx);
+                optionsHtml += `
+                    <label class="option-item ${isChecked ? 'selected' : ''}">
+                        <input type="radio" name="q${idx}" value="${optIdx}" ${isChecked ? 'checked' : ''} data-qidx="${idx}" data-oidx="${optIdx}">
+                        ${opt}
+                    </label>
+                `;
+            });
+            htmlStr += `
+                <div class="question" id="q-${idx}">
+                    <div class="q-title"><span class="badge">${idx+1}</span> Вопрос</div>
+                    <div class="q-text">${q.text}</div>
+                    <div class="options">${optionsHtml}</div>
+                    <div id="hint-${idx}" class="correct-answer-hint" style="display: none;"></div>
+                </div>
+            `;
+        });
+        container.innerHTML = htmlStr;
+
+        document.querySelectorAll('.option-item input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function(e) {
+                const qIdx = parseInt(this.dataset.qidx);
+                const oIdx = parseInt(this.dataset.oidx);
+                selectedAnswers[qIdx] = oIdx;
+                const parentOptions = this.closest('.options');
+                parentOptions.querySelectorAll('.option-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                this.closest('.option-item').classList.add('selected');
+                updateCheckButtonState();
+                
+                const hintDiv = document.getElementById(`hint-${qIdx}`);
+                if (hintDiv) hintDiv.style.display = 'none';
+            });
+        });
+        updateCheckButtonState();
+    }
+
+    function checkAnswers() {
+        let correctCount = 0;
+        
+        questionsData.forEach((q, idx) => {
+            const isCorrect = (selectedAnswers[idx] === q.correct);
+            if (isCorrect) correctCount++;
+            
+            const hintDiv = document.getElementById(`hint-${idx}`);
+            if (hintDiv) {
+                if (!isCorrect && selectedAnswers[idx] !== -1) {
+                    const correctOptionText = q.options[q.correct];
+                    hintDiv.innerText = `✅ Правильный ответ: ${correctOptionText}`;
+                    hintDiv.style.display = 'block';
+                } else {
+                    hintDiv.style.display = 'none';
+                }
+            }
+        });
+
+        scoreSpan.innerText = `${correctCount} / ${questionsData.length}`;
+    }
+
+    // Инициализация
+    renderQuestions();
+    checkBtn.addEventListener('click', checkAnswers);
+</script>
+</body>
+</html>
